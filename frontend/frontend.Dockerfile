@@ -12,9 +12,6 @@ RUN npm install
 # Copy the rest
 COPY . .
 
-# Add development dependencies
-RUN npm install -D tailwindcss postcss autoprefixer
-
 EXPOSE 5173
 
 # Use development command
