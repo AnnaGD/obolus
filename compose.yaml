@@ -4,7 +4,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: ../infrastructure/docker/frontend.Dockerfile
+      dockerfile: frontend.Dockerfile
     ports:
       - "5173:5173" # Vite's default port
     volumes:
@@ -14,22 +14,22 @@ services:
       - NODE_ENV=development
     command: sh -c "npm install && npm run dev -- --host"
 
-backend:
-  build:
-    context: ./backend
-    dockerfile: ../infrastructure/docker/backend.Dockerfile
-  ports:
-    - "8080:8080"
-  volumes:
-    - ./backend:/app
-    - /app/go/pkg/mod # Anonymous volume for Go modules
+  backend:
+    build:
+      context: ./backend
+      dockerfile: backend.Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/app
+      #- /app/go/pkg/mod # Anonymous volume for Go modules
 
-nginx:
-  image: nginx:alpine
-  ports:
-    - "80:80"
-  volumes:
-    - ./infrastructure/nginx/nginx.config:/etc/nginx/nginx.conf:ro
-  depends_on:
-    - frontend
-    - backend
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.xonf:ro
+    depends_on:
+      - frontend
+      - backend
