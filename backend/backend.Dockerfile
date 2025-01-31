@@ -18,4 +18,4 @@ COPY . .
 RUN go build -o main
 
 # Command to run executable
-CMD ["/app/backend"]
+CMD ["go", "run", "main.go"]
