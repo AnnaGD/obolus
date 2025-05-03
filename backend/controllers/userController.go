@@ -12,7 +12,7 @@ type User struct {
 	FistName string `json:"firstName"`
 	LastName string `json:"lastName"`
 	Email string `json:"email"`
-	Password string `json:"password"` // Issues: for production store the password securely hashed
+	Password string `json:"password"`
 
 }
 
