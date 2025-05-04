@@ -3,6 +3,7 @@ FROM golang:1.23-bullseye
 
 # Set the working directory inside the container
 WORKDIR /app
+RUN mkdir -p /app/data
 
 # Copy the Go modules and sum files
 COPY go.mod ./
