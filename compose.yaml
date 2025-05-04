@@ -18,6 +18,10 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./backend:/app
+      - ./backend:/app/data
+      - db-data:/app/data # Mount the volume to the directory whereSQLite files will be stored
     environment:
       - GO_ENV=development
+
+  volumes:
+      db-data: # SQLite db volume

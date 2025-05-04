@@ -1,4 +1,4 @@
-// controllers/userController.go
+// controllers/signupController.go
 
 package controllers
 

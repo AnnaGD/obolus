@@ -1,11 +1,15 @@
 package main
 
 import (
+
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
 	"obolus/backend/routes"
+	"obolus/backend/sqlitedb"
+	"database/sql"
+
 	"github.com/go-chi/docgen"
 )
 
@@ -15,7 +19,23 @@ var printRoutes = flag.Bool("routes", false, "Generate router documentation")
 func main() {
 	flag.Parse() // see if the route was passed to generate documentation
 
-	router := routes.InitRoutes() // create a new router
+	db, err := sql.Open("sqlite3", "/app/data/obolus.db")
+	if err != nil {
+		log.Fatalf("Error opening Database: %v", err)
+	}
+	defer db.Close()
+
+	// Ensure the Database can be connected
+	if err := db.Ping(); err != nil {
+		log.Fatalf("Error connecting to the database: %v", err)
+	}
+
+	// Initialize database schemas
+	if err := sqlitedb.InitializeSchemas(db, "db/schemas"); err != nil {
+		log.Fatalf("Failed to initialize database schema: %v", err)
+	}
+
+	router := routes.InitRoutes(db) // create a new router
 
 	fmt.Println("Go backend started!")
 
