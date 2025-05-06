@@ -23,5 +23,5 @@ services:
     environment:
       - GO_ENV=development
 
-  volumes:
-      db-data: # SQLite db volume
+volumes:
+    db-data:
