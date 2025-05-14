@@ -1,4 +1,4 @@
-.PHONY: help build up stop down remove-image bash-front bash-back
+.PHONY: help build up stop down remove-image bash-front bash-back logs-back back-end logs-front front-end
 .DEFAULT: help
 
 # Define variables for docker-compose commands
@@ -15,6 +15,11 @@ help:
 	@echo "  remove-image - Remove the Docker images for all services."
 	@echo "  bash-front   - Access the bash of the front-end running container."
 	@echo "  bash-back    - Access the bash of the back-end running container."
+	@echo "  logs-back	- Access and follow the container's logs for the back-end."
+	@echo "  back-end    - Access only the back-end service. Helpful to recreate the back-end service after changes."
+	@echo "  logs-front   - Access and follow the container's logs for the front-end."
+	@echo "  front-end   - Access only the front-end service. Helpful to recreate the front-end service after changes."
+
 
 # Build the Docker images
 build:
@@ -43,3 +48,20 @@ bash-front:
 # Access the container's bash for the back-end
 bash-back:
 	$(COMPOSE) -f $(COMPOSE_FILE) exec back-end /bin/bash
+
+# Access and follow the container's logs for the back-end
+logs-back:
+	$(COMPOSE) -f $(COMPOSE_FILE) logs -f back-end
+
+# Access only the back-end service. Helpful to recreate the back-end service after changes.
+back-end:
+	$(COMPOSE) -f $(COMPOSE_FILE) restart back-end
+
+# Access and follow the container's logs for the front-end∫
+logs-front:
+	$(COMPOSE) -f $(COMPOSE_FILE) logs -f front-end
+
+# Access only the front-end service. Helpful to recreate the front-end service after changes.
+front-end:
+	$(COMPOSE) -f $(COMPOSE_FILE) restart front-end
+
