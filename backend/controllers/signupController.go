@@ -21,13 +21,12 @@ type User struct {
 }
 
 // Checks the user fields for validity
-
 func validateInput(user User) error {
 	if user.Username == "" || len(user.Username) < 3 {
-		return errors.New("Username must be at least 3 characters long")
+		return errors.New("username must be at least 3 characters long")
 	}
 	if user.Password == "" || len(user.Password) < 8 {
-		return errors.New("Password must be at least 8 characters long")
+		return errors.New("password must be at least 8 characters long")
 	}
 
 	// Regex for validating an email address
@@ -39,7 +38,7 @@ func validateInput(user User) error {
 }
 
 // New user registration
-func SignUpHandler(sb *sql.DB) http.HandlerFunc {
+func SignUpHandler(db *sql.DB) http.HandlerFunc {
 
 	return func (w http.ResponseWriter, r *http.Request) {
 
