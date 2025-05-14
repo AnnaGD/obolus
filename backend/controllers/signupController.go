@@ -6,14 +6,24 @@ import (
 	"database/sql"
 	"net/http"
 	"encoding/json"
+	"errors"
 )
 
 type User struct {
 
-	UserName string `json:"username"`
+	Username string `json:"username"`
 	Email string `json:"email"`
-	Password string `json:"password"`
+	Password string `json:"password"` // TODO: aka issue - in production store the password securely
 
+}
+
+// Checks the user fields for validity
+
+func validateInput(user User) error {
+	if user.Username == "" || len(user.Username) < 3 {
+		return errors.New("Username must be at least 3 characters long")
+	}
+	return nil
 }
 
 // New user registration
