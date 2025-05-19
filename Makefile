@@ -43,25 +43,25 @@ remove-image:
 
 # Access the container's terminal for the front-end
 exec-front:
-	$(COMPOSE) -f $(COMPOSE_FILE) exec front-end /bin/bash
+	$(COMPOSE) -f $(COMPOSE_FILE) exec frontend /bin/bash
 
 # Access the container's terminal for the back-end
 exec-back:
-	$(COMPOSE) -f $(COMPOSE_FILE) exec back-end /bin/bash
+	$(COMPOSE) -f $(COMPOSE_FILE) exec backend /bin/bash
 
 # Access and follow the container's logs for the back-end
 logs-back:
-	$(COMPOSE) -f $(COMPOSE_FILE) logs -f back-end
+	$(COMPOSE) -f $(COMPOSE_FILE) logs -f backend
 
 # Access only the back-end service. Helpful to recreate the back-end service after changes.
-back-end:
-	$(COMPOSE) -f $(COMPOSE_FILE) restart back-end
+backend:
+	$(COMPOSE) -f $(COMPOSE_FILE) restart backend
 
 # Access and follow the container's logs for the front-end∫
 logs-front:
-	$(COMPOSE) -f $(COMPOSE_FILE) logs -f front-end
+	$(COMPOSE) -f $(COMPOSE_FILE) logs -f frontend
 
 # Access only the front-end service. Helpful to recreate the front-end service after changes.
-front-end:
-	$(COMPOSE) -f $(COMPOSE_FILE) restart front-end
+frontend:
+	$(COMPOSE) -f $(COMPOSE_FILE) restart frontend
 
