@@ -11,6 +11,7 @@ import (
 	"database/sql"
 
 	"github.com/go-chi/docgen"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 // passing the routes flag to print docs -- to run it: `go run . -routes`
@@ -31,7 +32,7 @@ func main() {
 	}
 
 	// Initialize database schemas
-	if err := sqlitedb.InitializeSchemas(db, "db/schemas"); err != nil {
+	if err := sqlitedb.InitializeSchemas(db, "/app/backend/sqlitedb/schemas"); err != nil {
 		log.Fatalf("Failed to initialize database schema: %v", err)
 	}
 
