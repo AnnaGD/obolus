@@ -5,7 +5,7 @@ services:
       dockerfile: frontend.Dockerfile
     ports:
       - "5173:5173"
-    command: ["npm", "start"]
+    command: ["npm", "run", "dev"]
     volumes:
       - ./frontend:/app
       - /app/node_modules # Anonymous volume for node_modules
@@ -20,7 +20,7 @@ services:
       - "8080:8080"
     command: ["go", "run", "main.go"]
     volumes:
-      - ./backend:/app/data
+      - ./backend:/app/backend
       - db-data:/app/data # Mount the volume to the directory whereSQLite files will be stored
     environment:
       - GO_ENV=development
