@@ -8,6 +8,7 @@ import (
 	"errors"
 	"net/http"
 	"regexp"
+	"fmt"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -54,6 +55,7 @@ func SignUpHandler(db *sql.DB) http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
+		fmt.Println("Decoded newUser:", newUser)
 
 		// Validate input data
 		if err := validateInput(newUser); err != nil {
@@ -64,9 +66,13 @@ func SignUpHandler(db *sql.DB) http.HandlerFunc {
 		// Hash the pw before storing it
 		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newUser.Password), bcrypt.DefaultCost)
 		if err != nil {
-			http.Error(w, "Error while hashing the password.", http.StatusInternalServerError)
+			errorMsg := "Error while hashing the password."
+			// http.Error(w, errorMsg, http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(map[string]string{"error": errorMsg})
 			return
 		}
+
+		fmt.Println("Checking if email exists:", newUser.Email)
 
 		// Check if the email already exits
 		var existingId int
@@ -91,14 +97,18 @@ func SignUpHandler(db *sql.DB) http.HandlerFunc {
 
 		_, err = stmt.Exec(newUser.Username, newUser.Email, hashedPassword)
 		if err != nil {
-			// Handle the error properly. It could be due to a duplicate username or email, etc.
-			http.Error(w, "Error creating the user account.", http.StatusInternalServerError)
+			errorMsg := "Error creating the user account."
+			// http.Error(w, errorMsg, http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(map[string]string{"error": errorMsg})
 			return
 		}
+		fmt.Println("User created succesfully:", newUser.Username)
 		
 		// For now pretend we've successfully created a user and return it
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusCreated)
+
+		// Sending back
 		json.NewEncoder(w).Encode(map[string]string{"start": "user created"})
 	}
 
