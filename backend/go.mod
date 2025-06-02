@@ -10,3 +10,5 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.28
 	golang.org/x/crypto v0.38.0
 )
+
+require github.com/go-chi/cors v1.2.1 // indirect
