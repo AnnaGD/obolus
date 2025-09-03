@@ -1,4 +1,4 @@
-.PHONY: help build up stop down remove-image bash-front bash-back logs-back back-end logs-front front-end
+.PHONY: help build up stop down remove-image exec-front exec-back logs-back back-end logs-front front-end
 .DEFAULT: help
 
 # Define variables for docker-compose commands
@@ -13,8 +13,8 @@ help:
 	@echo "  stop         - Stop all running services."
 	@echo "  down         - Stop and remove containers, networks created by 'up'."
 	@echo "  remove-image - Remove the Docker images for all services."
-	@echo "  bash-front   - Access the bash of the front-end running container."
-	@echo "  bash-back    - Access the bash of the back-end running container."
+	@echo "  exec-front   - Access the terminal of the front-end running container."
+	@echo "  exec-back    - Access the terminal of the back-end running container."
 	@echo "  logs-back	- Access and follow the container's logs for the back-end."
 	@echo "  back-end    - Access only the back-end service. Helpful to recreate the back-end service after changes."
 	@echo "  logs-front   - Access and follow the container's logs for the front-end."
@@ -41,27 +41,27 @@ down:
 remove-image:
 	$(COMPOSE) -f $(COMPOSE_FILE) down --rmi all
 
-# Access the container's bash for the front-end
-bash-front:
-	$(COMPOSE) -f $(COMPOSE_FILE) exec front-end /bin/bash
+# Access the container's terminal for the front-end
+exec-front:
+	$(COMPOSE) -f $(COMPOSE_FILE) exec frontend /bin/bash
 
-# Access the container's bash for the back-end
-bash-back:
-	$(COMPOSE) -f $(COMPOSE_FILE) exec back-end /bin/bash
+# Access the container's terminal for the back-end
+exec-back:
+	$(COMPOSE) -f $(COMPOSE_FILE) exec backend /bin/bash
 
 # Access and follow the container's logs for the back-end
 logs-back:
-	$(COMPOSE) -f $(COMPOSE_FILE) logs -f back-end
+	$(COMPOSE) -f $(COMPOSE_FILE) logs -f backend
 
 # Access only the back-end service. Helpful to recreate the back-end service after changes.
-back-end:
-	$(COMPOSE) -f $(COMPOSE_FILE) restart back-end
+backend:
+	$(COMPOSE) -f $(COMPOSE_FILE) restart backend
 
 # Access and follow the container's logs for the front-end∫
 logs-front:
-	$(COMPOSE) -f $(COMPOSE_FILE) logs -f front-end
+	$(COMPOSE) -f $(COMPOSE_FILE) logs -f frontend
 
 # Access only the front-end service. Helpful to recreate the front-end service after changes.
-front-end:
-	$(COMPOSE) -f $(COMPOSE_FILE) restart front-end
+frontend:
+	$(COMPOSE) -f $(COMPOSE_FILE) restart frontend
 
